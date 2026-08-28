@@ -4,62 +4,98 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Busan Care Bridge · 거래서류 생성기 (견적서 · 인보이스 · 패킹리스트)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --accent: #C1796F;
-    --accent-dark: #A85F55;
-    --bg: #FAF5F3;
+    --accent: #EC3013;
+    --accent-dark: #A3220D;
+    --accent-soft: #FBE3DB;
+    --bg: #F3F1EF;
     --panel: #FFFFFF;
-    --ink: #2B2320;
-    --ink-soft: #6B615C;
-    --line: #E8E1DC;
+    --ink: #211C19;
+    --ink-soft: #7A6F68;
+    --line: #E6DFDA;
+    --line-strong: #D8CCC3;
     --warn-bg: #FFF3E8;
     --warn-ink: #9A5B1E;
+    --font-header: 'Montserrat', -apple-system, "Pretendard", "Noto Sans KR", sans-serif;
+    --font-question: 'Roboto', -apple-system, "Pretendard", "Noto Sans KR", sans-serif;
+    --font-text: 'Roboto', -apple-system, "Pretendard", "Noto Sans KR", sans-serif;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
     background: var(--bg);
     color: var(--ink);
-    font-family: -apple-system, "Pretendard", "Noto Sans KR", "Segoe UI", sans-serif;
-    line-height: 1.55;
+    font-family: var(--font-text);
+    font-size: 14px;
+    line-height: 1.6;
   }
   header {
-    padding: 28px 24px 20px;
+    padding: 30px 24px 24px;
     border-bottom: 1px solid var(--line);
     background: var(--panel);
+    background-image: linear-gradient(90deg, var(--accent) 0%, var(--accent) 4px, transparent 4px);
   }
-  header h1 { margin: 0; font-size: 20px; letter-spacing: -0.01em; }
-  header .sub { margin-top: 4px; font-size: 13px; color: var(--ink-soft); }
-  header .hbtns { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+  header .head-row { max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  header .eyebrow {
+    font-family: var(--font-question); font-weight: 700; font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent); margin: 0 0 6px 14px;
+  }
+  header h1 { margin: 0 0 0 14px; font-family: var(--font-header); font-weight: 800; font-size: 25px; letter-spacing: -0.01em; color: var(--ink); }
+  header .sub { margin: 6px 0 0 14px; font-family: var(--font-text); font-size: 13px; color: var(--ink-soft); }
+  header .hbtns { margin: 16px 0 0 14px; display: flex; gap: 8px; flex-wrap: wrap; }
   main {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 24px 20px 80px;
+    padding: 28px 20px 90px;
     display: grid;
-    gap: 20px;
+    gap: 18px;
   }
   .panel {
     background: var(--panel);
     border: 1px solid var(--line);
-    border-radius: 10px;
-    padding: 20px 22px;
+    border-radius: 12px;
+    padding: 22px 24px;
+    box-shadow: 0 1px 2px rgba(33,28,25,0.03);
+    position: relative;
   }
-  .panel h2 { margin: 0 0 16px; font-size: 15px; font-weight: 700; color: var(--accent-dark); }
+  .panel::before {
+    content: ""; position: absolute; top: 0; left: 22px; right: 22px; height: 2px;
+    background: var(--accent-soft); border-radius: 0 0 2px 2px;
+  }
+  .panel h2 {
+    display: flex; align-items: center; gap: 10px;
+    margin: 4px 0 18px; font-family: var(--font-header); font-size: 13px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-dark);
+  }
+  .step-badge {
+    flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #fff;
+    font-family: var(--font-header); font-size: 11px; font-weight: 700; letter-spacing: 0;
+    text-transform: none;
+  }
   .panel .hint { margin: -10px 0 14px; color: var(--ink-soft); font-size: 12.5px; }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; }
   .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px 16px; }
-  label { display: block; font-size: 12.5px; color: var(--ink-soft); margin-bottom: 4px; }
+  label {
+    display: block; font-family: var(--font-question); font-weight: 500; font-size: 12px;
+    color: var(--ink-soft); margin-bottom: 5px; letter-spacing: 0.01em;
+  }
   input[type=text], input[type=email], input[type=number], input[type=date], textarea, select {
     width: 100%;
-    padding: 8px 10px;
+    padding: 9px 11px;
     border: 1px solid var(--line);
-    border-radius: 6px;
+    border-radius: 7px;
     font-size: 13.5px;
     background: #fff;
     color: var(--ink);
     font-family: inherit;
+    transition: border-color .12s ease;
   }
+  input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); }
   textarea { resize: vertical; min-height: 56px; }
   .field { margin-bottom: 10px; }
   .field.full { grid-column: 1 / -1; }
@@ -67,23 +103,26 @@
   .checkline input { width: auto; }
 
   .brand-block { margin-bottom: 18px; }
-  .brand-block h3 { font-size: 13.5px; margin: 0 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+  .brand-block h3 {
+    font-family: var(--font-question); font-weight: 700; font-size: 11px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink-soft); margin: 0 0 8px; padding-bottom: 8px; border-bottom: 1px solid var(--line);
+  }
   .product-row {
     display: grid;
     grid-template-columns: 22px 1fr 90px 90px 90px;
     align-items: center;
     gap: 10px;
-    padding: 7px 0;
-    font-size: 13px;
+    padding: 8px 0;
+    font-size: 13.5px;
     border-bottom: 1px dashed var(--line);
   }
   .product-row:last-child { border-bottom: none; }
   .product-row .ph { color: var(--ink-soft); font-size: 11.5px; }
-  .product-row input[type=number] { width: 100%; padding: 5px 6px; border: 1px solid var(--line); border-radius: 5px; font-size: 13px; text-align: right; }
+  .product-row input[type=number] { width: 100%; padding: 6px 6px; border: 1px solid var(--line); border-radius: 6px; font-size: 13px; text-align: right; }
   .product-row .price-input { text-align: right; }
   .needs-review { background: var(--warn-bg); }
   .needs-review .price-input { border-color: #E0A458; }
-  .col-head { font-size: 11px; color: var(--ink-soft); text-align: right; padding-bottom: 4px; }
+  .col-head { font-family: var(--font-question); font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); text-align: right; padding-bottom: 4px; }
   .col-head.name { text-align: left; }
 
   .packing-row, .packing-row-head {
@@ -91,50 +130,52 @@
     grid-template-columns: 1.4fr 70px 90px 80px 70px 70px 70px;
     align-items: center;
     gap: 8px;
-    padding: 7px 0;
+    padding: 8px 0;
     font-size: 12.5px;
     border-bottom: 1px dashed var(--line);
   }
   .packing-row:last-child { border-bottom: none; }
-  .packing-row input, .packing-row select { padding: 5px 6px; font-size: 12.5px; }
-  .packing-head { font-size: 11px; color: var(--ink-soft); }
+  .packing-row input, .packing-row select { padding: 5px 6px; font-size: 12.5px; border-radius: 6px; }
+  .packing-head { font-family: var(--font-question); font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
 
   .summary-bar {
-    position: sticky; bottom: 0; background: var(--panel); border-top: 1px solid var(--line);
-    padding: 14px 22px; display: flex; justify-content: space-between; align-items: center;
-    border-radius: 10px 10px 0 0; box-shadow: 0 -4px 14px rgba(0,0,0,0.05); flex-wrap: wrap; gap: 8px;
+    position: sticky; bottom: 0; background: var(--panel); border-top: 1px solid var(--line-strong);
+    padding: 16px 24px; display: flex; justify-content: space-between; align-items: center;
+    border-radius: 14px 14px 0 0; box-shadow: 0 -6px 18px rgba(33,28,25,0.06); flex-wrap: wrap; gap: 8px;
   }
-  .summary-bar .total { font-size: 18px; font-weight: 700; color: var(--accent-dark); }
+  .summary-bar > div:first-child { font-size: 13px; color: var(--ink-soft); }
+  .summary-bar .total { font-family: var(--font-header); font-size: 19px; font-weight: 800; color: var(--accent-dark); }
   .summary-bar .warn-count { font-size: 12px; color: var(--warn-ink); margin-left: 10px; }
   button {
-    background: var(--accent); color: #fff; border: none; padding: 10px 18px; border-radius: 7px;
-    font-size: 13.5px; cursor: pointer; font-weight: 600;
+    background: var(--accent); color: #fff; border: none; padding: 10px 20px; border-radius: 999px;
+    font-family: var(--font-text); font-size: 13.5px; cursor: pointer; font-weight: 700;
+    box-shadow: 0 1px 2px rgba(163,34,13,0.25); transition: background .12s ease, transform .12s ease;
   }
-  button:hover { background: var(--accent-dark); }
-  button.secondary { background: transparent; color: var(--accent-dark); border: 1px solid var(--accent); }
-  button.secondary:hover { background: #FBEEEC; }
-  button.small { padding: 6px 12px; font-size: 12.5px; }
+  button:hover { background: var(--accent-dark); transform: translateY(-1px); }
+  button.secondary { background: transparent; color: var(--accent-dark); border: 1px solid var(--line-strong); box-shadow: none; }
+  button.secondary:hover { background: var(--accent-soft); border-color: var(--accent); transform: none; }
+  button.small { padding: 6px 14px; font-size: 12px; }
 
   .tab-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
 
   /* ── Document preview (shared: quote / invoice / packing) ── */
   .doc-view { display: none; }
   .doc-view.show { display: block; }
-  .doc-sheet { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 40px 44px; }
-  .doc-sheet .qhead { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid var(--accent); padding-bottom: 16px; margin-bottom: 20px; }
-  .doc-sheet .qhead h2 { margin: 0; font-size: 22px; color: var(--accent-dark); }
+  .doc-sheet { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 44px 48px; }
+  .doc-sheet .qhead { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2.5px solid var(--accent); padding-bottom: 18px; margin-bottom: 22px; }
+  .doc-sheet .qhead h2 { margin: 0; font-family: var(--font-header); font-weight: 800; font-size: 27px; letter-spacing: 0.01em; color: var(--accent-dark); }
   .doc-sheet .qhead .meta { text-align: right; font-size: 12.5px; color: var(--ink-soft); }
   .doc-sheet table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 12.5px; }
-  .doc-sheet th, .doc-sheet td { border: 1px solid var(--line); padding: 7px 9px; text-align: left; vertical-align: top; }
-  .doc-sheet th { background: #F6EFEC; font-size: 11.5px; }
+  .doc-sheet th, .doc-sheet td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+  .doc-sheet th { background: var(--accent-soft); font-family: var(--font-question); font-weight: 700; font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent-dark); }
   .doc-sheet td.num { text-align: right; }
   .doc-sheet .review-cell { color: var(--warn-ink); font-weight: 600; }
   .doc-sheet .total-row td { font-weight: 700; background: #FBF7F5; }
   .doc-sheet .terms { margin-top: 22px; font-size: 12px; color: var(--ink-soft); border-top: 1px solid var(--line); padding-top: 14px; }
   .doc-sheet .notes { white-space: pre-wrap; font-size: 12.5px; background: var(--warn-bg); border-radius: 6px; padding: 10px 12px; margin-top: 10px; }
   .doc-sheet .plain-table td { border: none; padding: 3px 8px 3px 0; }
-  .doc-sheet .box-label { font-weight: 700; font-size: 11.5px; color: var(--accent-dark); margin-bottom: 4px; }
-  .doc-sheet .info-box { border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; margin-bottom: 10px; }
+  .doc-sheet .box-label { font-family: var(--font-question); font-weight: 700; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin-bottom: 4px; }
+  .doc-sheet .info-box { border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; }
   .doc-sheet .sig-row { margin-top: 30px; text-align: right; font-size: 12.5px; color: var(--ink-soft); }
 
   @media print {
@@ -150,18 +191,24 @@
     .grid2, .grid3 { grid-template-columns: 1fr; }
     .product-row { grid-template-columns: 18px 1fr 70px 70px 70px; font-size: 12px; }
     .packing-row { grid-template-columns: 1fr; }
+    header .head-row { flex-direction: column; }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Busan Care Bridge · 거래서류 생성기</h1>
-  <div class="sub">관리자 전용 · 로컬/개인용 도구 — 바이어 정보와 제품을 한 번 입력하면 견적서 · 인보이스 · 패킹리스트를 모두 만들 수 있습니다</div>
-  <div class="hbtns">
-    <button class="secondary" onclick="toggleDealList()">📁 저장된 거래 불러오기</button>
-    <button class="secondary" onclick="toggleManage()">제품 관리 (추가·수정·삭제)</button>
-    <button class="secondary" onclick="toggleShipperSettings()">발송인 정보 설정</button>
+  <div class="head-row">
+    <div>
+      <div class="eyebrow">Busan, Korea · Export Documents</div>
+      <h1>Busan Care Bridge · 거래서류 생성기</h1>
+      <div class="sub">관리자 전용 · 로컬/개인용 도구 — 바이어 정보와 제품을 한 번 입력하면 견적서 · 인보이스 · 패킹리스트를 모두 만들 수 있습니다</div>
+      <div class="hbtns">
+        <button class="secondary" onclick="toggleDealList()">📁 저장된 거래 불러오기</button>
+        <button class="secondary" onclick="toggleManage()">제품 관리 (추가·수정·삭제)</button>
+        <button class="secondary" onclick="toggleShipperSettings()">발송인 정보 설정</button>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -230,7 +277,7 @@
   </div>
 
   <div class="panel" id="buyerPanel">
-    <h2>1. 바이어 정보</h2>
+    <h2><span class="step-badge">1</span>바이어 정보</h2>
     <div class="grid2">
       <div class="field"><label>이름 (Name)</label><input type="text" id="f_name"></div>
       <div class="field"><label>회사명 (Company)</label><input type="text" id="f_company"></div>
@@ -251,12 +298,12 @@
   </div>
 
   <div class="panel" id="productPanel">
-    <h2>2. 주문 제품 (수량 입력 시 자동 계산)</h2>
+    <h2><span class="step-badge">2</span>주문 제품 (수량 입력 시 자동 계산)</h2>
     <div id="productLists"></div>
   </div>
 
   <div class="panel" id="shippingPanel">
-    <h2>3. 선적 · 인보이스 정보</h2>
+    <h2><span class="step-badge">3</span>선적 · 인보이스 정보</h2>
     <div class="grid3">
       <div class="field"><label>Invoice No.</label><input type="text" id="s_invno"></div>
       <div class="field"><label>Invoice date</label><input type="date" id="s_invdate"></div>
@@ -309,7 +356,7 @@
   </div>
 
   <div class="panel" id="packingPanel">
-    <h2>4. 포장 정보 (패킹리스트용)</h2>
+    <h2><span class="step-badge">4</span>포장 정보 (패킹리스트용)</h2>
     <div class="hint">2번에서 선택한 제품이 여기에 자동으로 나열됩니다. 박스 수/포장종류/총중량을 입력하세요. 가로x세로x높이(cm)를 입력하면 부피(CBM)가 자동 계산됩니다.</div>
     <div class="packing-row-head packing-head">
       <span>품목</span><span>박스수</span><span>포장종류</span><span>총중량(kg)</span><span>L(cm)</span><span>W(cm)</span><span>H(cm)</span>
@@ -318,12 +365,12 @@
   </div>
 
   <div class="panel">
-    <h2>5. 비고 (기타 요청 / 캐리어 정보 / 검토 필요 사항)</h2>
+    <h2><span class="step-badge">5</span>비고 (기타 요청 / 캐리어 정보 / 검토 필요 사항)</h2>
     <textarea id="f_notes" placeholder="구글폼의 자유입력(기타 수량), 기타 요청사항, 한국 내 캐리어 정보 등을 여기에 옮겨 적으세요."></textarea>
   </div>
 
   <div class="panel">
-    <h2>6. 서명 (선택)</h2>
+    <h2><span class="step-badge">6</span>서명 (선택)</h2>
     <div class="hint">판매자(Seller) 서명은 "발송인 정보 설정"에서 한 번 등록하면 자동으로 반영됩니다. 바이어(Buyer) 서명은 서명받은 이미지를 받으면 여기에 첨부하세요 — 이 거래를 저장할 때 함께 저장됩니다.</div>
     <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
       <img id="buyer_sig_preview" src="" alt="" style="display:none; max-height:60px; max-width:220px; border:1px solid var(--line); border-radius:6px; background:#fff; padding:4px;">
